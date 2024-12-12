@@ -3,7 +3,7 @@ name: Deploy Laravel to cPanel/hPanel
 on:
   push:
     branches:
-      - main  # Deploys when changes are pushed to the main branch
+      - main
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Install Dependencies
+    # Step 2: Install PHP dependencies
     - name: Install PHP dependencies
       uses: shivammathur/setup-php@v2
       with:
@@ -22,6 +22,7 @@ jobs:
         extensions: mbstring, exif, bcmath, intl
         tools: composer
     - run: composer install --no-dev --optimize-autoloader
+      working-directory: ./src  # Ensure this points to your Laravel folder
 
     # Step 3: Build Frontend (Vue, Inertia, Tailwind)
     - name: Install Node.js
@@ -31,16 +32,17 @@ jobs:
     - run: |
         npm ci
         npm run prod
+      working-directory: ./src  # Ensure this points to your Laravel folder
 
     # Step 4: Upload to Server
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.0
       with:
-        server: ftp.coderpirate.com  # Replace with your FTP server
-        username: admin@coderpirate.com  # Set in GitHub Secrets
-        password: Admin@1332  # Set in GitHub Secrets
-        local-dir: ./src
-        server-dir: /public_html  # Adjust this based on your hosting configuration
+        server: ftp.coderpirate.com
+        username: admin@coderpirate.com
+        password: Admin@1332
+        local-dir: ./src  # Ensure this points to your Laravel folder
+        server-dir: /public_html
 
     # Step 5: Clear Cache and Migrate Database
     - name: Run Laravel Artisan Commands
@@ -50,3 +52,4 @@ jobs:
         php artisan migrate --force
       env:
         APP_ENV: production
+      working-directory: ./src  # Ensure this points to your Laravel folder
