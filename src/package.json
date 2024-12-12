@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "prod": "npm run build && npm run production",
+        "build": "vue-cli-service build",
+        "production": "cross-env NODE_ENV=production node_modules/.bin/webpack --mode production"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",

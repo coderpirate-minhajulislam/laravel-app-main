@@ -3,7 +3,7 @@ name: Deploy Laravel to cPanel/hPanel
 on:
   push:
     branches:
-      - main
+      - main  # Deploys when changes are pushed to the main branch
 
 jobs:
   deploy:
@@ -31,14 +31,15 @@ jobs:
         node-version: 16
     - run: |
         npm ci
-        npm run prod
+        npm run build
+        npm run prod  # Make sure the `prod` script is defined in `package.json`
       working-directory: ./src  # Ensure this points to your Laravel folder
 
     # Step 4: Upload to Server
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.0
       with:
-        server: ftp.coderpirate.com
+        server: ftp://coderpirate.com
         username: admin@coderpirate.com
         password: Admin@1332
         local-dir: ./src  # Ensure this points to your Laravel folder
