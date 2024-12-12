@@ -29,11 +29,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16
-    - run: |
-        npm ci
-        npm run build
-        npm run prod  # Make sure the `prod` script is defined in `package.json`
-      working-directory: ./src  # Ensure this points to your Laravel folder
+    # - run: |
+    #     npm ci
+    #     npm run build
+    #     npm run prod  # Make sure the `prod` script is defined in `package.json`
+    #   working-directory: ./src  # Ensure this points to your Laravel folder
 
     # Step 4: Upload to Server
     - name: Deploy to cPanel
