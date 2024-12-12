@@ -1,0 +1,52 @@
+name: Deploy Laravel to cPanel/hPanel
+
+on:
+  push:
+    branches:
+      - main  # Deploys when changes are pushed to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout Code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Install Dependencies
+    - name: Install PHP dependencies
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: mbstring, exif, bcmath, intl
+        tools: composer
+    - run: composer install --no-dev --optimize-autoloader
+
+    # Step 3: Build Frontend (Vue, Inertia, Tailwind)
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - run: |
+        npm ci
+        npm run prod
+
+    # Step 4: Upload to Server
+    - name: Deploy to cPanel
+      uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      with:
+        server: ftp://your-cpanel-domain.com  # Replace with your FTP server
+        username: ${{ secrets.FTP_USERNAME }}  # Set in GitHub Secrets
+        password: ${{ secrets.FTP_PASSWORD }}  # Set in GitHub Secrets
+        local-dir: ./src
+        server-dir: /public_html  # Adjust this based on your hosting configuration
+
+    # Step 5: Clear Cache and Migrate Database
+    - name: Run Laravel Artisan Commands
+      run: |
+        php artisan config:cache
+        php artisan route:cache
+        php artisan migrate --force
+      env:
+        APP_ENV: production
