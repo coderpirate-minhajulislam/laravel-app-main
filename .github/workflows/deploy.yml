@@ -39,7 +39,7 @@ jobs:
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.0
       with:
-        server: ftp://coderpirate.com
+        server: ftp.coderpirate.com
         username: admin@coderpirate.com
         password: Admin@1332
         local-dir: ./src/  # Ensure this points to your Laravel folder
