@@ -43,7 +43,7 @@ jobs:
         username: admin@coderpirate.com
         password: Admin@1332
         local-dir: ./src/  # Ensure this points to your Laravel folder
-        server-dir: /public_html
+        server-dir: /public_html/
 
     # Step 5: Clear Cache and Migrate Database
     - name: Run Laravel Artisan Commands
