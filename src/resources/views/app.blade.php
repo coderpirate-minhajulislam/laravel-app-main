@@ -17,5 +17,7 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+
+        test by minhaz
     </body>
 </html>
