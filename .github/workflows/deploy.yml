@@ -34,11 +34,11 @@ jobs:
 
     # Step 4: Upload to Server
     - name: Deploy to cPanel
-      uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.0
       with:
-        server: ftp://your-cpanel-domain.com  # Replace with your FTP server
-        username: ${{ secrets.FTP_USERNAME }}  # Set in GitHub Secrets
-        password: ${{ secrets.FTP_PASSWORD }}  # Set in GitHub Secrets
+        server: ftp.coderpirate.com  # Replace with your FTP server
+        username: admin@coderpirate.com  # Set in GitHub Secrets
+        password: Admin@1332  # Set in GitHub Secrets
         local-dir: ./src
         server-dir: /public_html  # Adjust this based on your hosting configuration
 
